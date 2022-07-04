@@ -1,4 +1,6 @@
 const Student = require('../models/studentModel');
+const fs = require('fs');
+const path = require('path');
 
 /**
  * @desc get all student data
@@ -69,10 +71,19 @@ const studentDataUpdateForm = async (req, res) =>{
 const editStudentData = async (req, res) =>{
     let id = req.params.id
 
-    let file_name = req.old_photo
-    console.log(file_name);
+    let file_name = req.body.old_photo
+
     if (req.file) {
-        file_name = req.file.filename 
+        file_name = req.file.filename
+
+         fs.unlink(path.join(__dirname, `../assets/upload/${req.body.old_photo}`),
+          (err) => {
+            if (err) {
+              console.error(err)
+              return
+            }
+            //file removed
+          })
     }
 
     await Student.findByIdAndUpdate(id, {

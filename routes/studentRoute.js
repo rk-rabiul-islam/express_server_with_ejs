@@ -32,7 +32,7 @@ router.get('/create', viewStudentForm);
 router.post('/', dataSetting, createStudent);
 router.get('/:id', viewSingleStudent);
 router.get('/edit/:id', studentDataUpdateForm);
-router.post('edit/:id', dataSetting, editStudentData);
+router.post('/edit/:id', dataSetting, editStudentData);
 router.get('/delete/:id', deleteStudentData);
 
 
