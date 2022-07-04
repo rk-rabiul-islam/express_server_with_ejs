@@ -1,30 +1,112 @@
+const Student = require('../models/studentModel');
 
 /**
  * @desc get all student data
  * @name GET / sutdest
  * @access public
  */
-const getAllStudents = (req, res) =>{
+const getAllStudents = async (req, res) =>{
 
-    res.render('index');
+    let students = await Student.find();
+    res.render('index', {students});
 }
 
 /**
- * @desc get all student data
- * @name GET / sutdest
+ * @desc View student Form
+ * @name GET / sutdest/createStudent
  * @access public
  */
-const createStudents = (req, res) =>{
-
+const viewStudentForm = (req, res) =>{
     res.render('createStudent');
 }
 
+/**
+ * @desc creat new student data
+ * @name GET / sutdest/createStudent
+ * @access public
+ */
+const createStudent = (req, res) =>{
 
+    // creact a new student
+    Student.create({
+        ...req.body,
+        photo : req.file.filename
+    });
+
+    // redirect to all student page 
+    res.redirect('/student');
+}
+
+/**
+ * @desc view single student data
+ * @name GET / sutdest/view/:id
+ * @access public
+ */
+const viewSingleStudent = async (req, res) =>{
+    let id = req.params.id;
+    let view_single = await Student.findById(id);
+    res.render('view', {view_single});
+}
+
+/**
+ * @desc edit student data
+ * @name GET / sutdest/edit/:id
+ * @access public
+ */
+const studentDataUpdateForm = async (req, res) =>{
+
+    let id = req.params.id;
+    let edit_student_data = await Student.findById(id);
+
+    res.render('edit', {edit_student_data});
+}
+
+/**
+ * @desc edit student data
+ * @name GET / sutdest/edit/:id
+ * @access public
+ */
+const editStudentData = async (req, res) =>{
+    let id = req.params.id
+
+    let file_name = req.old_photo
+    console.log(file_name);
+    if (req.file) {
+        file_name = req.file.filename 
+    }
+
+    await Student.findByIdAndUpdate(id, {
+        ...req.body,
+        photo: file_name
+    },{ 
+        new: true 
+    });
+    
+    res.redirect('/student');
+}
+
+/**
+ * @desc edit student data
+ * @name GET / sutdest/edit/:id
+ * @access public
+ */
+const deleteStudentData = async (req, res) =>{
+    let id = req.params.id;
+
+    await Student.findByIdAndDelete(id);
+    res.redirect('/student');
+}
 
 
 
 // export controllers
 module.exports = {
     getAllStudents,
-    createStudents
+    viewStudentForm,
+    createStudent,
+    viewSingleStudent,
+    studentDataUpdateForm,
+    editStudentData,
+    deleteStudentData
+
 }

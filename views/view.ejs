@@ -1,0 +1,41 @@
+
+
+
+    <div class="container my-5">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header">
+                <h1>Profile information</h1>
+              </div>
+              <div class="card-body">
+                
+                <div class="row">
+                    <div class="col-md-8 Sing_data_info">
+
+                            <label for="">Name</label>
+                            <hr>
+                            <h1><%= view_single.name %></h1>
+                            <label for="">Email</label>
+                            <hr>
+                            <h1><%= view_single.email %></h1>
+                            <label for="">Phone#</label>
+                            <hr>
+                            <h1><%= view_single.phone %></h1>
+                    </div>
+                    <div class="col-md-4">
+                        <img style="width: 100%; vertical-align: middle; height: 100%; object-fit: contain;" src="/assets/upload/<%= view_single.photo %>" alt="">
+                    </div>
+                </div>
+
+              </div>
+              <div class="card-footer  d-flex view_page_buttons">
+                <a href="/student" class="btn btn-primary">Back Home</a>
+                <a href="/student/edit/<%= view_single._id %>" class="btn btn-primary">Edit Student Data</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+  
