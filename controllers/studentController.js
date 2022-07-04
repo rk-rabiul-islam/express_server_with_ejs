@@ -83,7 +83,7 @@ const editStudentData = async (req, res) =>{
               return
             }
             //file removed
-          })
+          });
     }
 
     await Student.findByIdAndUpdate(id, {
@@ -103,6 +103,18 @@ const editStudentData = async (req, res) =>{
  */
 const deleteStudentData = async (req, res) =>{
     let id = req.params.id;
+
+    let deletPhoto = await Student.findById(id);
+    let photo = deletPhoto.photo
+
+    fs.unlink(path.join(__dirname, `../assets/upload/${photo}`),
+    (err) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+      //file removed
+    });
 
     await Student.findByIdAndDelete(id);
     res.redirect('/student');
